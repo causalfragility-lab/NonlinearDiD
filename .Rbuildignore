@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^LICENSE\.md$
+^\.github$
+^data-raw$
+^\.DS_Store$
+^inst/extdata/simulations$
+^\.positai$
+^\.claude$
+^FIRST_RUN\.md$
+^Makefile$
