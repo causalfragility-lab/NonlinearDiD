@@ -2,7 +2,7 @@
 
 > **Staggered Difference-in-Differences with Nonlinear Outcomes**
 
-[![R-CMD-check](https://github.com/example/NonlinearDiD/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/example/NonlinearDiD/actions)
+[![R-CMD-check](https://github.com/causalfragility-lab/NonlinearDiD/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/causalfragility-lab/NonlinearDiD/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/NonlinearDiD)](https://CRAN.R-project.org/package=NonlinearDiD)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -17,7 +17,7 @@ For binary outcomes (employed/not, hospitalized/not, defaulted/not), this
 creates fundamental problems:
 
 | Problem | Why it matters |
-|---------|---------------|
+|---------|----------------|
 | **Scale sensitivity** | Parallel trends in P(Y=1) ≠ parallel trends in log-odds. Pre-trends can appear flat or steep depending on the scale. |
 | **Jensen's inequality** | Treatment effects on probability scale mix the "real" effect with curvature of the CDF. |
 | **Heterogeneous baseline rates** | Units with different baseline probabilities will show "spurious" violations of parallel trends even under no treatment effect. |
@@ -30,11 +30,11 @@ properly handle logit, probit, Poisson, and negative binomial outcome models.
 ## Installation
 
 ```r
-# CRAN (forthcoming)
+# CRAN
 install.packages("NonlinearDiD")
 
-# GitHub (development)
-remotes::install_github("example/NonlinearDiD")
+# GitHub (development version)
+remotes::install_github("causalfragility-lab/NonlinearDiD")
 ```
 
 ---
@@ -46,7 +46,7 @@ library(NonlinearDiD)
 
 # 1. Simulate staggered binary panel data
 dat <- sim_binary_panel(n = 500, nperiods = 8, n_cohorts = 3,
-                         prop_treated = 0.5, true_att = 0.25, seed = 42)
+                        prop_treated = 0.5, true_att = 0.25, seed = 42)
 
 # 2. Estimate ATT(g,t) with logistic outcome model
 res <- nonlinear_attgt(
@@ -138,10 +138,11 @@ nonlinear_pretest(res)
 
 This package addresses an active research frontier. Contributions,
 bug reports, and methodological suggestions are welcome — please open
-an issue or pull request on GitHub.
+an issue or pull request on
+[GitHub](https://github.com/causalfragility-lab/NonlinearDiD/issues).
 
 ---
 
 ## License
 
-MIT © NonlinearDiD Authors
+MIT © 2026 Subir Hait
