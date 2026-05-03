@@ -14,7 +14,7 @@ Description: Implements difference-in-differences estimators for staggered
     designs. Provides group-time average treatment effects on the treated (ATT),
     aggregation schemes, and pre-treatment parallel trends tests appropriate for
     nonlinear settings. Methods include doubly-robust semiparametric estimators,
-    nonparametric bounds, and an odds-ratio DiD approach for binary outcomes.
+    nonparametric bounds, and an odds-ratio DiD approach for binary outcomes. Methods extend Callaway and Sant'Anna (2021) <doi:10.1016/j.jeconom.2020.12.001>, Roth and Sant'Anna (2023) <doi:10.3982/ECTA19255>, and Wooldridge (2023) <doi:10.1093/ectj/utad016>.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -40,5 +40,5 @@ Suggests:
     covr
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://github.com/yourusername/NonlinearDiD
-BugReports: https://github.com/yourusername/NonlinearDiD/issues
+URL: https://github.com/causalfragility-lab/NonlinearDiD
+BugReports: https://github.com/causalfragility-lab/NonlinearDiD/issues

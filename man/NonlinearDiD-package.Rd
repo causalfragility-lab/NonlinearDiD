@@ -61,8 +61,8 @@ difference-in-differences with panel data. \emph{The Econometrics Journal}, 26(3
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/yourusername/NonlinearDiD}
-  \item Report bugs at \url{https://github.com/yourusername/NonlinearDiD/issues}
+  \item \url{https://github.com/causalfragility-lab/NonlinearDiD}
+  \item Report bugs at \url{https://github.com/causalfragility-lab/NonlinearDiD/issues}
 }
 
 }

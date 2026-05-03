@@ -36,6 +36,7 @@
 #'   }
 #'
 #' @examples
+#' \donttest{
 #' set.seed(1)
 #' dat  <- sim_binary_panel(n = 400, nperiods = 8, prop_treated = 0.5)
 #' res  <- nonlinear_attgt(dat, yname = "y", tname = "period",
@@ -44,6 +45,7 @@
 #' agg  <- nonlinear_aggte(res, type = "dynamic")
 #' plot(agg)
 #'
+#' }
 #' @export
 nonlinear_aggte <- function(
     obj,
