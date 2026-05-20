@@ -1,30 +1,54 @@
-## Resubmission
+## Submission — version 0.2.0
 
-Addressing review from Uwe Ligges:
+This is an update to NonlinearDiD, currently on CRAN at version 0.1.0.
 
-1. Fixed invalid GitHub URLs -- changed from placeholder
-   yourusername/NonlinearDiD to correct repository
-   causalfragility-lab/NonlinearDiD
+### Summary of changes since 0.1.0
 
-2. Added doi references to Description field:
-   Callaway & Sant Anna (2021) <doi:10.1016/j.jeconom.2020.12.001>,
-   Roth & Sant Anna (2023) <doi:10.3982/ECTA19255>,
-   Wooldridge (2023) <doi:10.1093/ectj/utad016>
+* Added support for **repeated cross-section** staggered DiD designs via a
+  new `data_type` argument in `nonlinear_attgt()`. The default
+  `data_type = "panel"` preserves all v0.1.0 behaviour.
+* `idname` is now optional (default `NULL`); required only for
+  `data_type = "panel"`.
+* New `weightsname` argument applies sampling weights throughout the
+  outcome regression, propensity score model, and pooled QMLE.
+* New `cluster_var` argument enables clustered inference:
+  `sandwich::vcovCL()` for analytical SEs and cluster resampling for the
+  bootstrap.
+* New exported function `sim_binary_rcs()` for simulating repeated
+  cross-section data.
+* Compiled C++ helpers from v0.1.0 replaced with equivalent pure-R
+  implementations. The package no longer requires compilation
+  (`NeedsCompilation: no`).
 
-3. Wrapped slow examples in \donttest{} to resolve
-   example timing error in R CMD check
+### Backward compatibility
 
-## R CMD check results
+All v0.1.0 panel-data functions and their named-argument syntax are
+preserved unchanged. Existing user scripts that call
+`nonlinear_attgt()` with named arguments
+(`idname = "id"`, `gname = "g"`, ...) continue to work identically.
+A regression test (`tests/testthat/test-attgt.R`) covers the documented
+v0.1.0 panel example and the `binary_did_dr()` 2x2 example.
 
-0 errors | 0 warnings | 0 notes
+### R CMD check results
 
-## Test environments
+`R CMD check --as-cran` on Windows 11 (R 4.5.1) reports:
 
-* Windows 11 x64, R 4.5.1 (local)
-* Windows (win-builder), R-devel
-* Ubuntu (GitHub Actions), R-release
-* macOS (GitHub Actions), R-release
+    0 errors | 0 warnings | 1 note
 
-## Downstream dependencies
+The single NOTE is:
 
-None -- this is a new package.
+    checking for future file timestamps ... NOTE
+      unable to verify current time
+
+This is an environmental note unrelated to the package (the check could
+not reach the NIST time server from the test machine) and is routinely
+ignored by CRAN.
+
+### Test environments
+
+* local: Windows 11, R 4.5.1
+* `devtools::test()`: 16 / 16 tests pass
+
+### Reverse dependencies
+
+None.

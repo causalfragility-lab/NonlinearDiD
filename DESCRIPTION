@@ -1,44 +1,35 @@
 Package: NonlinearDiD
 Type: Package
 Title: Staggered Difference-in-Differences with Nonlinear Outcomes
-Version: 0.1.0
-Authors@R:
-    person("Subir", "Hait", email = "haitsubi@msu.edu",
-           role = c("aut", "cre"),
-           comment = c(ORCID = "0009-0004-9871-9677"))
-Description: Implements difference-in-differences estimators for staggered
-    treatment adoption with binary, count, and other nonlinear outcomes.
-    Extends Callaway and Sant'Anna (2021) <doi:10.1016/j.jeconom.2020.12.001>
-    to handle the fundamental identification challenges that arise with nonlinear
-    outcome models (logit, probit, Poisson) in heterogeneous treatment timing
-    designs. Provides group-time average treatment effects on the treated (ATT),
-    aggregation schemes, and pre-treatment parallel trends tests appropriate for
-    nonlinear settings. Methods include doubly-robust semiparametric estimators,
-    nonparametric bounds, and an odds-ratio DiD approach for binary outcomes. Methods extend Callaway and Sant'Anna (2021) <doi:10.1016/j.jeconom.2020.12.001>, Roth and Sant'Anna (2023) <doi:10.3982/ECTA19255>, and Wooldridge (2023) <doi:10.1093/ectj/utad016>.
+Version: 0.2.0
+Description: Supports staggered difference-in-differences designs with
+    nonlinear outcomes for both panel and repeated cross-section data.
+    Implements estimators for staggered treatment adoption with binary,
+    count, and other nonlinear outcomes, extending Callaway and Sant'Anna
+    (2021) <doi:10.1016/j.jeconom.2020.12.001> to handle the
+    identification challenges that arise with nonlinear outcome models
+    (logit, probit, Poisson) in heterogeneous treatment timing designs.
+    For panel data, units are followed over time and 'idname' identifies
+    repeated observations. For repeated cross-section data, observations
+    are independent within each time period; 'idname' is optional and
+    may identify survey records or households, but the estimator does
+    not require the same units to appear across periods. Repeated
+    cross-section estimation uses the Wooldridge (2023)
+    <doi:10.1093/ectj/utad008> pooled QMLE with a treatment-by-period
+    interaction, with an optional IPW-augmented doubly-robust variant.
+    Sampling weights and cluster-robust inference are supported in both
+    designs. Methods also draw on Roth and Sant'Anna (2023)
+    <doi:10.3982/ECTA19255> and Sant'Anna and Zhao (2020)
+    <doi:10.1016/j.jeconom.2020.06.014>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Depends:
-    R (>= 4.0.0)
-Imports:
-    stats,
-    utils,
-    MASS,
-    sandwich,
-    lmtest,
-    ggplot2,
-    Rcpp (>= 1.0.0)
-LinkingTo:
-    Rcpp
-Suggests:
-    did,
-    dplyr,
-    knitr,
-    rmarkdown,
-    testthat (>= 3.0.0),
-    covr
-VignetteBuilder: knitr
+Depends: R (>= 4.0.0)
+Imports: stats, utils, MASS, sandwich, lmtest, ggplot2
+Suggests: did, dplyr, knitr, rmarkdown, testthat (>= 3.0.0), covr
 Config/testthat/edition: 3
 URL: https://github.com/causalfragility-lab/NonlinearDiD
 BugReports: https://github.com/causalfragility-lab/NonlinearDiD/issues
+NeedsCompilation: no
+Author: Subir Hait [aut, cre] (ORCID: <https://orcid.org/0009-0004-9871-9677>)
+Maintainer: Subir Hait <haitsubi@msu.edu>
