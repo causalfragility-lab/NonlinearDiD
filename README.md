@@ -116,18 +116,6 @@ summary(res)
 nonlinear_aggte(res, type = "dynamic")
 ```
 
-A Stata 14+ companion package (`nonlineardid`) mirrors this exact call:
-
-```stata
-nonlineardid binary_outcome year policy_start_year [pw=survey_weight], ///
-    idname(record_id)                                                  ///
-    type(rcs)                                                          ///
-    outcome(logit)                                                     ///
-    estimand(ape)                                                      ///
-    control(notyetreated)                                              ///
-    cluster(region)
-```
-
 ## Key Functions
 
 | Function | Description |
