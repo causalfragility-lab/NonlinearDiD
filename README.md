@@ -2,7 +2,7 @@
 
 **Staggered Difference-in-Differences with Nonlinear Outcomes — panel and repeated cross-section data**
 
-[![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen)](https://github.com/causalfragility-lab/NonlinearDiD)
+[![R-CMD-check](https://github.com/causalfragility-lab/NonlinearDiD/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/causalfragility-lab/NonlinearDiD/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/NonlinearDiD)](https://CRAN.R-project.org/package=NonlinearDiD)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -18,13 +18,13 @@ For binary outcomes (employed/not, hospitalized/not, defaulted/not), this create
 | **Jensen's inequality** | Treatment effects on the probability scale mix the "real" effect with curvature of the CDF. |
 | **Heterogeneous baseline rates** | Units with different baseline probabilities will show "spurious" violations of parallel trends even under no treatment effect. |
 
-`NonlinearDiD` extends the CS2021 framework to properly handle logit, probit, Poisson, and negative binomial outcome models — for both **panel** and **repeated cross-section** data.
+**NonlinearDiD** extends the CS2021 framework to properly handle **logit**, **probit**, **Poisson**, and **negative binomial** outcome models — for both panel and repeated cross-section data.
 
 ## What's New in 0.2.0
 
 - **Repeated cross-section support** — different individuals each period (e.g. BRFSS, NHIS, CPS supplements). Set `data_type = "repeated_cross_section"`; `idname` becomes optional.
 - **Sampling weights** — pass `weightsname = "wt"` and the weight is threaded through the outcome regression, propensity score, and pooled QMLE.
-- **Clustered inference** — pass `cluster_var = "state"` for `sandwich::vcovCL()` analytical SEs and cluster-resampling bootstrap.
+- **Clustered inference** — pass `cluster_var = "region"` for `sandwich::vcovCL()` analytical SEs and cluster-resampling bootstrap.
 - **No more compilation** — the Rcpp helpers from 0.1.0 are now pure R, so installation is one step on every platform.
 - **All v0.1.0 functions and arguments preserved** — existing scripts using named arguments continue to work unchanged.
 
@@ -93,27 +93,39 @@ res <- nonlinear_attgt(
 plot(nonlinear_aggte(res, type = "dynamic"))
 ```
 
-## Survey-Weighted Real-World Example
+## Survey-Weighted Repeated Cross-Section Example
 
-Repeated cross-section survey data (e.g. CPS Food Security Supplement) with sampling weights and state-level clustering:
+Repeated cross-section survey data with sampling weights and geographic clustering:
 
 ```r
 res <- nonlinear_attgt(
-  data          = snap_data,
-  yname         = "food_insecure",
+  data          = survey_data,
+  yname         = "binary_outcome",
   tname         = "year",
-  gname         = "policy_end_year",
-  idname        = "household_id",    # optional — used only as a record ID
+  gname         = "policy_start_year",
+  idname        = "record_id",      # optional — used only as a record ID
   data_type     = "repeated_cross_section",
   outcome_model = "logit",
   estimand      = "ape",
   weightsname   = "survey_weight",
-  cluster_var   = "state",
+  cluster_var   = "region",
   control_group = "notyetreated"
 )
 
 summary(res)
 nonlinear_aggte(res, type = "dynamic")
+```
+
+A Stata 14+ companion package (`nonlineardid`) mirrors this exact call:
+
+```stata
+nonlineardid binary_outcome year policy_start_year [pw=survey_weight], ///
+    idname(record_id)                                                  ///
+    type(rcs)                                                          ///
+    outcome(logit)                                                     ///
+    estimand(ape)                                                      ///
+    control(notyetreated)                                              ///
+    cluster(region)
 ```
 
 ## Key Functions
@@ -130,7 +142,7 @@ nonlinear_aggte(res, type = "dynamic")
 | `odds_ratio_did()` | Odds-ratio DiD estimator |
 | `nonlinear_bounds()` | Nonparametric Manski / PT bounds |
 | `sim_binary_panel()` | Simulate binary panel data for testing |
-| `sim_binary_rcs()` | Simulate binary repeated cross-section data **(new in 0.2.0)** |
+| `sim_binary_rcs()` | Simulate binary repeated cross-section data (new in 0.2.0) |
 | `sim_count_panel()` | Simulate count panel data for testing |
 
 ## Estimands
@@ -143,11 +155,11 @@ nonlinear_aggte(res, type = "dynamic")
 
 ## Panel vs Repeated Cross-Section
 
-`NonlinearDiD` supports staggered difference-in-differences designs with nonlinear outcomes for both panel and repeated cross-section data.
+NonlinearDiD supports staggered difference-in-differences designs with nonlinear outcomes for both panel and repeated cross-section data.
 
-- **Panel data** (`data_type = "panel"`, default): units are followed over time and `idname` identifies repeated observations. Estimation uses within-unit outcome changes following Callaway & Sant'Anna (2021).
+**Panel data** (`data_type = "panel"`, default): units are followed over time and `idname` identifies repeated observations. Estimation uses within-unit outcome changes following Callaway & Sant'Anna (2021).
 
-- **Repeated cross-section data** (`data_type = "repeated_cross_section"`): observations are independent within each time period. `idname` is optional and may identify survey records or households, but the estimator does not require the same units to appear across periods. Estimation uses pooled quasi-maximum likelihood approaches motivated by Wooldridge (2023), with an optional IPW-augmented doubly-robust variant.
+**Repeated cross-section data** (`data_type = "repeated_cross_section"`): observations are independent within each time period. `idname` is optional and may identify survey records or households, but the estimator does not require the same units to appear across periods. Estimation uses pooled quasi-maximum likelihood approaches motivated by Wooldridge (2023), with an optional IPW-augmented doubly-robust variant.
 
 ## Outcome Models
 
